@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="DIFAS Logo" src="images/difas.png">
+</p>
+
 # Dependency Installer for archaic Systems
 
 - tiny set of Bash scripts
