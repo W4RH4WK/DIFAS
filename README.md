@@ -1,4 +1,4 @@
-# Dependency Installer for ancient Systems
+# Dependency Installer for archaic Systems
 
 - tiny set of Bash scripts
 - no root privileges required

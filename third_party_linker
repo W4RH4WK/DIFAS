@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+export INSTALLER_DIR="$(dirname "$(readlink -f "$0")")"
+
+source "$INSTALLER_DIR/config.sh"
+source "$INSTALLER_DIR/internal/functions.sh"
+
+mkdir -p "$THIRD_PARTY_DIR"
+
+echo "Prefix: $DIFAS_PREFIX"
+
+atleastone=false
+for pkg in $(get_pkg_list); do
+	if is_pkg_installed $pkg; then
+		atleastone=true
+		(
+			load_pkg $pkg
+			echo "Adding symlink for $PACKAGE"
+			ln -sfT "$(get_pkg_path $pkg)" "$THIRD_PARTY_DIR/$NAME"
+		)
+	fi
+done
+
+if ! $atleastone; then
+	>&2 echo "Warning: No symlinks added, check DIFAS_PREFIX."
+fi

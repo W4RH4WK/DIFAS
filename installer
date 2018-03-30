@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+export INSTALLER_DIR="$(dirname "$(readlink -f "$0")")"
+
+source "$INSTALLER_DIR/internal/functions.sh"
+source "$INSTALLER_DIR/internal/install_steps.sh"
+
+source "$INSTALLER_DIR/config.sh"
+
+if [[ $# -eq 0 || "$1" == "-h" || "$1" == "--help" ]]; then
+	echo "usage: $0 [--with-depends] <package_name>..."
+	exit 1
+fi
+
+if [[ "$1" == "--with-depends" ]]; then
+	shift
+	pkgs=$(resolve_dependencies "$@")
+else
+	pkgs="$@"
+fi
+
+for pkg in $pkgs; do
+	assert_pkg_exists $pkg
+
+	if is_pkg_installed $pkg; then
+		echo "$(get_pkg_property $pkg PACKAGE) already installed"
+		continue
+	fi
+
+	install_pkg $pkg
+done
