@@ -2,7 +2,7 @@
   <img alt="DIFAS Logo" src="images/difas.png">
 </p>
 
-# Dependency Installer for archaic Systems
+# Dependency Installer for Archaic Systems
 
 - tiny set of Bash scripts
 - no root privileges required
