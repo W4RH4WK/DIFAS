@@ -19,7 +19,7 @@ pkg_configure() {
 		--with-gmp="$GMP_PKG" \
 		--with-mpc="$MPC_PKG" \
 		--with-mpfr="$MPFR_PKG" \
-		--enable-languages="c,c++" \
+		--enable-languages="c,c++,fortran" \
 		--without-isl \
 		--disable-multilib \
 		--enable-lto
