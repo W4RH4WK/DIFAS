@@ -118,3 +118,33 @@ The installer will now use the freshly installed GCC as compiler.
 For instance:
 
     $ DIFAS_USE_GCC=Y ./installer boost
+
+## CMake Integration
+
+Use the following script to integrate DIFAS into your CMake project.
+This assumes that DIFAS is part of your project and located in `scripts/DIFAS`.
+It will automatically run the `third_party_linker` and add created symlinks to `CMAKE_PREFIX_PATH`.
+This way, `find_package` calls will automatically consider packages installed via DIFAS.
+
+```cmake
+if(DEFINED ENV{DIFAS_ROOT})
+	set(DIFAS_ROOT $ENV{DIFAS_ROOT})
+elseif(NOT DEFINED DIFAS_ROOT)
+	set(DIFAS_ROOT ${CMAKE_SOURCE_DIR}/scripts/DIFAS)
+endif()
+
+if(NOT UNIX)
+	message(WARNING "DIFAS is only supported on Linux / macOS")
+elseif(NOT EXISTS ${DIFAS_ROOT}/third_party_linker)
+	message(WARNING "DIFAS' third_party_linker not found")
+else()
+	execute_process(
+		COMMAND ${DIFAS_ROOT}/third_party_linker
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	)
+
+	set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/third_party CACHE STRING "Third Party Symlink Directory")
+	file(GLOB _prefix_paths ${THIRD_PARTY_DIR}/*)
+	list(APPEND CMAKE_PREFIX_PATH ${_prefix_paths})
+endif()
+```
