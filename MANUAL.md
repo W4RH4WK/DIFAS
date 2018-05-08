@@ -82,24 +82,6 @@ To use one of the installed packages directly, adjust the necessary environment 
 - `LIBRARY_PATH`
 - `LD_LIBRARY_PATH`
 
-## CMake Integration
-
-Add this to the top of your main CMake file:
-
-```cmake
-set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/third_party CACHE STRING "Third Party Directory")
-if(NOT EXISTS ${THIRD_PARTY_DIR})
-	message(FATAL_ERROR "`third_party` directory does not exist, did you run `third_party_linker` ?")
-endif()
-file(GLOB _prefix_paths ${THIRD_PARTY_DIR}/*)
-list(APPEND CMAKE_PREFIX_PATH ${_prefix_paths})
-```
-
-Invoke the `third_party_linker` in your build directory before invoking CMake.
-The aforementioned code snippet will add each folder (and symlink) located in the `third_party` directory to the `CMAKE_PREFIX_PATH` list.
-This list is considered for `find_package` calls.
-With this you should not have to adjust anything given you are using `find_package` correctly.
-
 ## Patches
 
 The default `pkg_prepare` action will apply all patches inside the `patches` directory which are prefixed with the package name.
