@@ -14,7 +14,7 @@ export SLOTS="${SLOTS:-$(nproc)}"
 
 # Override Compiler.
 if [[ -n ${DIFAS_USE_GCC+x} ]]; then
-	GCC_PKG="$DIFAS_PREFIX/$(get_pkg_property gcc PACKAGE)"
+	GCC_PKG=$(get_pkg_path gcc)
 	export CC="$GCC_PKG/bin/gcc"
 	export CXX="$GCC_PKG/bin/g++"
 	export PATH="$GCC_PKG/bin:$PATH"
