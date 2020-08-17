@@ -1,8 +1,8 @@
 # This file contains the default implementation for install steps.
 
 pkg_download() {
-	wget -nc "$URL"
-	if [[ "$SHA256SUM" ]]; then
+	wget -O "$FILE" "$URL"
+	if [[ -n "$SHA256SUM" ]]; then
 		echo "$SHA256SUM  $FILE" | sha256sum -c
 	fi
 }
