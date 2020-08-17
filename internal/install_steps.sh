@@ -4,7 +4,7 @@
 install_pkg() {
 	local name=$1
 	(
-		set -eu
+		set -e
 
 		source "$INSTALLER_DIR/internal/default_implementation.sh"
 		load_pkg $name
